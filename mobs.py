@@ -1,6 +1,52 @@
 import os
 import abc
 
+
+class armadura(metaclass=abc.ABCMeta):
+    
+    @abc.abstractmethod
+    def defensa(self) -> int:
+        pass
+
+class cascoCuero(armadura):
+
+    nombreArmadura="Casco de Cuero"
+
+    def defensa(self) -> int:
+        return 1
+
+class chalecoCuero(armadura):
+
+    nombreArmadura="Chaleco de Cuero"
+
+    def defensa(self) -> int:
+        return 2
+
+class piernasCuero(armadura):
+
+    nombreArmadura="Pantalon de Cuero"
+
+    def defensa(self) -> int:
+        return 1
+
+class botasCuero(armadura):
+
+    nombreArmadura="Botas de Cuero"
+    
+    def defensa(self) -> int:
+        return 1
+
+class escudoHierro(armadura):
+
+    nombreArmadura="Escudo de Hierro"
+
+    def defensa(self) -> int:
+        return 2
+        
+
+
+
+
 class arma(metaclass=abc.ABCMeta):
     
     @abc.abstractmethod
@@ -64,6 +110,7 @@ class samrtSword(arma):
 
 class vacio(arma):
     nombreArma="NINGUNA"
+    inflingedano="NADA ---> 0"
 
     def ataque(self) -> int:
         return 0
@@ -72,13 +119,9 @@ class vacio(arma):
 
 
 
-
-
-
-
-
 class mobs(metaclass=abc.ABCMeta):
     
+    @abc.abstractmethod
     def __init__(
         self,
         vidaMaxima:int,
@@ -90,31 +133,9 @@ class mobs(metaclass=abc.ABCMeta):
         self.ARMA=ARMA
         self.nombre=nombre
         self.vidaActual=vidaMaxima
-     
-    @abc.abstractmethod
-    def armaAtaque(self)->int:
-        pass
-    
-    @abc.abstractmethod
-    def recibiDano(self,monstruo: 'mobs')->None:
-        pass
-
-    @abc.abstractmethod
-    def atacar(self,monstruoQueRecibe:'mobs')->None:
-        pass
-
-
-class Jugador(mobs):
-
-    monedas=200
-
-    def __init__(self, vidaMaxima: int, ARMA: 'arma', nombre: str) -> None:
-        super().__init__(vidaMaxima, ARMA, nombre)
-        self.nombre=nombre
-        self.vidaMaxima=vidaMaxima
 
     def armaAtaque(self) -> int:
-        armajugador=hacha()
+        armajugador=self.ARMA()
         valor=armajugador.ataque()
         return valor
     
@@ -127,41 +148,31 @@ class Jugador(mobs):
         monstruoQueRecibe.recibiDano(self)
 
 
+class Jugador(mobs):
+
+    monedas=200
+    nivel=1
+    experiencia=0
+    critico=0
+
+    def __init__(self, vidaMaxima: int, ARMA: 'arma', nombre: str) -> None:
+        super().__init__(vidaMaxima, ARMA, nombre)
+        self.nombre=nombre
+        self.vidaMaxima=vidaMaxima
+
 
 class goblin(mobs):
+
+    nivel=1
 
     def __init__(self, vidaMaxima: int, ARMA: 'arma', nombre: str) -> None:
        super().__init__(15, espada, "Goblin")
 
-    def armaAtaque(self) -> int:
-        espadaGoblin=espada()
-        valor=espadaGoblin.ataque()
-        return valor
-    
-    def recibiDano(self, monstruo: 'mobs') -> None:
-        self.vidaActual-=monstruo.armaAtaque()
-        if self.vidaActual < 0:
-            self.vidaActual=0
-
-    def atacar(self, monstruoQueRecibe: 'mobs') -> None:
-        monstruoQueRecibe.recibiDano(self)
-
-
 
 class squeleton(mobs):
+
+    nivel=1
 
     def __init__(self, vidaMaxima: int, ARMA: 'arma', nombre: str) -> None:
        super().__init__(18, arco, "Esqueleton")
 
-    def armaAtaque(self) -> int:
-        arcosqueleton=arco()
-        valor=arcosqueleton.ataque()
-        return valor
-    
-    def recibiDano(self, monstruo: 'mobs') -> None:
-        self.vidaActual-=monstruo.armaAtaque()
-        if self.vidaActual < 0:
-            self.vidaActual=0
-
-    def atacar(self, monstruoQueRecibe: 'mobs') -> None:
-        monstruoQueRecibe.recibiDano(self)

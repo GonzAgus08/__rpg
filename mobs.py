@@ -8,6 +8,7 @@ class armadura(metaclass=abc.ABCMeta):
     def defensa(self) -> int:
         pass
 
+
 class cascoCuero(armadura):
 
     nombreArmadura="Casco de Cuero"
@@ -42,6 +43,13 @@ class escudoHierro(armadura):
 
     def defensa(self) -> int:
         return 2
+
+class vacia(armadura):
+
+    nombreArmadura="Vacio"
+
+    def defensa(self) -> int:
+        return 0
         
 
 
@@ -126,24 +134,49 @@ class mobs(metaclass=abc.ABCMeta):
         self,
         vidaMaxima:int,
         ARMA: 'arma',
-        nombre:str
+        nombre:str,
+        casco: 'armadura',
+        pecho: 'armadura',
+        piernas: 'armadura',
+        pies: 'armadura',
+        escudo: 'armadura'
     ) -> None:
 
         self.vidaMaxima=vidaMaxima
         self.ARMA=ARMA
         self.nombre=nombre
         self.vidaActual=vidaMaxima
+        self.casco=casco
+        self.pecho=pecho
+        self.piernas=piernas
+        self.pies=pies
+        self.escudo=escudo
+        self.ataqueBase=0
 
     def armaAtaque(self) -> int:
         armajugador=self.ARMA()
-        valor=armajugador.ataque()
+        valor=(armajugador.ataque()+self.ataqueBase)
         return valor
     
-    def recibiDano(self, monstruo: 'mobs') -> None:
-        self.vidaActual-=monstruo.armaAtaque()
-        if self.vidaActual < 0:
-            self.vidaActual=0
+    def defensaArmadura(self):
+        cascoJugador=self.casco()
+        pechoJugador=self.pecho()
+        piernasJugador=self.piernas()
+        piesJugador=self.pies()
+        escudoJugador=self.escudo()
+        valor=cascoJugador.defensa()+pechoJugador.defensa()+piernasJugador.defensa()+piesJugador.defensa()+escudoJugador.defensa()
+        return valor
 
+    def recibiDano(self, monstruo: 'mobs') -> None:
+        muestradaño=(monstruo.armaAtaque()-self.defensaArmadura())
+        if muestradaño >= 0:
+            self.vidaActual-=muestradaño
+            if self.vidaActual < 0:
+                self.vidaActual=0
+        else:
+            self.vidaActual-=0
+
+        
     def atacar(self, monstruoQueRecibe: 'mobs') -> None:
         monstruoQueRecibe.recibiDano(self)
 
@@ -155,8 +188,20 @@ class Jugador(mobs):
     experiencia=0
     critico=0
 
-    def __init__(self, vidaMaxima: int, ARMA: 'arma', nombre: str) -> None:
-        super().__init__(vidaMaxima, ARMA, nombre)
+
+    def __init__(
+        self,
+        vidaMaxima: int, 
+        ARMA: 'arma', 
+        nombre: str, 
+        casco: 'armadura', 
+        pecho: 'armadura', 
+        piernas: 'armadura', 
+        pies: 'armadura', 
+        escudo: 'armadura'
+        ) -> None:
+
+        super().__init__(vidaMaxima, ARMA, nombre, casco, pecho, piernas, pies, escudo)
         self.nombre=nombre
         self.vidaMaxima=vidaMaxima
 
@@ -165,14 +210,71 @@ class goblin(mobs):
 
     nivel=1
 
-    def __init__(self, vidaMaxima: int, ARMA: 'arma', nombre: str) -> None:
-       super().__init__(15, espada, "Goblin")
+    def __init__(
+        self,
+        vidaMaxima: int, 
+        ARMA: 'arma', 
+        nombre: str, 
+        casco: 'armadura', 
+        pecho: 'armadura', 
+        piernas: 'armadura', 
+        pies: 'armadura', 
+        escudo: 'armadura'
+        ) -> None:
+
+       super().__init__(15, espada, "Goblin", casco, pecho, piernas, pies, escudo)
+
+class goblin5(mobs):
+    
+    nivel=5
+
+    def __init__(
+        self,
+        vidaMaxima: int, 
+        ARMA: 'arma', 
+        nombre: str, 
+        casco: 'armadura', 
+        pecho: 'armadura', 
+        piernas: 'armadura', 
+        pies: 'armadura', 
+        escudo: 'armadura'
+        ) -> None:
+
+       super().__init__(30, hacha, "Goblin", casco, pecho, piernas, pies, escudo)
 
 
 class squeleton(mobs):
 
     nivel=1
 
-    def __init__(self, vidaMaxima: int, ARMA: 'arma', nombre: str) -> None:
-       super().__init__(18, arco, "Esqueleton")
+    def __init__(
+        self,
+        vidaMaxima: int, 
+        ARMA: 'arma', 
+        nombre: str, 
+        casco: 'armadura', 
+        pecho: 'armadura', 
+        piernas: 'armadura', 
+        pies: 'armadura', 
+        escudo: 'armadura'
+        ) -> None:
 
+       super().__init__(18, arco, "Esqueleton", casco, pecho, piernas, pies, escudo)
+
+class squeleton5(mobs):
+    
+    nivel=5
+
+    def __init__(
+        self,
+        vidaMaxima: int, 
+        ARMA: 'arma', 
+        nombre: str, 
+        casco: 'armadura', 
+        pecho: 'armadura', 
+        piernas: 'armadura', 
+        pies: 'armadura', 
+        escudo: 'armadura'
+        ) -> None:
+
+       super().__init__(50, katana, "Esqueleton", casco, pecho, piernas, pies, escudo)

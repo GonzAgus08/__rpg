@@ -1,23 +1,263 @@
-from math import comb
 from monstruo import *
 import os
 import random 
-
-aleatorio=random.randint(0,3)
-
-mochila=[]
-mochila1=[]
-
-Goblin=goblin(None,None,None,vacia,vacia,vacia,vacia,vacia)
-Goblin5=goblin5(None,None,None,vacia,vacia,vacia,vacia,escudoHierro)
-Esqueleto=squeleton(None,None,None,vacia,vacia,vacia,vacia,vacia)
-Esqueleto5=squeleton5(None,None,None,cascoCuero,vacia,vacia,vacia,escudoHierro)
 
 nombreUsuario=input("ingrese su nombre de Usuario:")
 os.system("cls")
 
 usuario=Jugador(20,hacha,nombreUsuario,vacia,vacia,vacia,vacia,vacia)
 
+mochila=[]
+mochila1=[]
+enemigos=[
+    ["Goblin --- NIVEL: 1 --- NIVEL: 5",
+    "Esqueleto --- NIVEL: 1 --- NIVEL: 5"],
+    ["Escorpion --- NIVEL: 1 --- NIVEL: 5",
+    "Minotauro --- NIVEL: 1 --- NIVEL: 5"]
+    ]
+
+Goblin=goblin(None,None,None,vacia,vacia,vacia,vacia,vacia)
+Goblin5=goblin5(None,None,None,vacia,vacia,vacia,vacia,escudoHierro)
+Esqueleto=squeleton(None,None,None,vacia,vacia,vacia,vacia,vacia)
+Esqueleto5=squeleton5(None,None,None,cascoCuero,vacia,vacia,vacia,escudoHierro)
+Escorpion=scorpion(None,None,None,vacia,vacia,piernasCuero,botasCuero,vacia)
+Escorpion5=scorpion5(None,None,None,cascoCuero,vacia,piernasCuero,botasCuero,vacia)
+Minotauro=minotauro(None,None,None,cascoCuero,chalecoCuero,vacia,vacia,escudoHierro)
+Minotauro5=minotauro5(None,None,None,cascoCuero,chalecoCuero,piernasCuero,vacia,escudoHierro)
+
+def comanSeleccion(monstruo: 'mobs'):
+    print("Enemigo:"+monstruo.nombre)
+    os.system("echo.")
+    print("NIVEL:"+str(monstruo.nivel))
+    os.system("echo.")
+    print("Arma actual: "+monstruo.ARMA.nombreArma)
+    os.system("echo.")
+    print("Vida del enemigo:"+str(monstruo.vidaActual))
+    os.system("echo.")
+
+def seleccion(aleatorio,divicion):
+    if divicion==1:
+        if aleatorio==0:
+            comanSeleccion(Goblin)
+        elif aleatorio==1:
+            comanSeleccion(Goblin5)
+        elif aleatorio==2:
+            comanSeleccion(Esqueleto)
+        elif aleatorio==3:
+            comanSeleccion(Esqueleto5)
+    elif divicion==2:
+        if aleatorio==0:
+            comanSeleccion(Escorpion)
+        elif aleatorio==1:
+            comanSeleccion(Escorpion5)
+        elif aleatorio==2:
+            comanSeleccion(Minotauro)
+        elif aleatorio==3:
+            comanSeleccion(Minotauro5)
+
+def comanCobat(monstruo: 'mobs'):
+    os.system("cls")
+    pibote=usuario.vidaActual
+    piboteM=monstruo.vidaActual
+    if usuario.critico==1:
+        critico1(monstruo)
+    elif usuario.critico==2:
+        critico2(monstruo)
+    elif usuario.critico==3:
+        critico3(monstruo)
+    usuario.atacar(monstruo)
+    print(usuario.ARMA.inflingedano)
+    os.system("echo.")
+    monstruo.atacar(usuario)
+    print(monstruo.ARMA.inflingedano)
+    os.system("echo.")
+    pibote2=-(usuario.vidaActual-pibote)
+    print(f"daño recibido: {pibote2}")
+    os.system("echo.")
+    pibote2m=-(monstruo.vidaActual-piboteM)
+    print(f"daño inflingido: {pibote2m}")
+    os.system("echo.")
+    regeneracion=mostraRegeneracion()
+    print(f"regeneracion: {regeneracion}")
+
+def comanComand2(monstruo: 'mobs'):
+    os.system("cls")
+    pibote=usuario.vidaActual
+    monstruo.atacar(usuario)
+    print(monstruo.ARMA.inflingedano)
+    os.system("echo.")
+    pibote2=-(usuario.vidaActual-pibote)
+    print(f"daño recibido: {pibote2}")
+    os.system("echo.")
+    if usuario.vidaActual>0:
+        regeneracion=mostraRegeneracion()
+        print(f"regeneracion: {regeneracion}")
+
+def dialogoDefeat():
+    print("¡¡PERDISTE!!")
+    input("PRESIONE CUALQUIER TECLA PARA CONTINUAR...")
+    os.system("cls")
+
+def dialogoWin(palabrin,monedas,exp):
+    print(f"MATASTE A {palabrin}!")
+    print(f"+{monedas} monedas")
+    usuario.monedas+=monedas
+    print(f"+{exp} EXP")
+    usuario.experiencia+=exp
+    input("PRESIONE CUALQUIER TECLA PARA CONTINUAR...")
+    os.system("cls")
+
+aleatorio1=random.randint(0,3)
+
+def mapas(monstruo1: 'mobs',monedas1,expe1, monstruo2: 'mobs',monedas2,expe2, monstruo3: 'mobs',monedas3,expe3, monstruo4: 'mobs',monedas4,expe4,divicion) -> None:
+    while True:
+
+        aleatorio=aleatorio1
+        estadoJugador()
+        seleccion(aleatorio,divicion)
+
+        print("para atacar preisone\"A\"")
+        os.system("echo.")
+        print("para defenderse preisone\"B\"")
+        os.system("echo.")
+        print("para volver presione \"V\"")
+        accion=input("ingrese una opcion:")
+
+        if accion=="a" and aleatorio==0:
+            comanCobat(monstruo1)
+            if usuario.vidaActual==0:
+                dialogoDefeat()
+                break
+            elif monstruo1.vidaActual==0:
+                dialogoWin(monstruo1.nombre,monedas1,expe1)
+                break
+            recuperarVida()
+        elif accion=="a" and aleatorio==1:
+            comanCobat(monstruo2)
+            if usuario.vidaActual==0:
+                dialogoDefeat()
+                break
+            elif monstruo2.vidaActual==0:
+                dialogoWin(monstruo2.nombre,monedas2,expe2)
+                break
+            recuperarVida()
+        elif accion=="a" and aleatorio==2:
+            comanCobat(monstruo3)
+            if usuario.vidaActual==0:
+                dialogoDefeat()
+                break
+            elif monstruo3.vidaActual==0:
+                dialogoWin(monstruo3.nombre,monedas3,expe3)
+                break
+            recuperarVida()
+        elif accion=="a" and aleatorio==3:
+            comanCobat(monstruo4)
+            if usuario.vidaActual==0:
+                dialogoDefeat()
+                break
+            elif monstruo4.vidaActual==0:
+                dialogoWin(monstruo4,monedas4,expe4)
+                break
+            recuperarVida()
+        elif accion=="b" and aleatorio==0:
+            comanComand2(monstruo1)
+            if usuario.vidaActual > 0:
+                usuario.vidaActual+=2
+            elif usuario.vidaActual==0:
+                dialogoDefeat()
+                break
+            if monstruo1.vidaActual==0:
+                dialogoWin(monstruo1.nombre,monedas1,expe1)
+                break
+            recuperarVida()
+        elif accion=="b" and aleatorio==1:
+            comanComand2(monstruo2)
+            if usuario.vidaActual > 0:
+                usuario.vidaActual+=2
+            elif usuario.vidaActual==0:
+                dialogoDefeat()
+                break
+            if monstruo2.vidaActual==0:
+                dialogoWin(monstruo2.nombre,monedas2,expe2)
+                break
+            recuperarVida()
+        elif accion=="b" and aleatorio==2:
+            comanComand2(monstruo3)
+            if usuario.vidaActual > 0:
+                usuario.vidaActual+=2
+            elif usuario.vidaActual==0:
+                dialogoDefeat()
+                break
+            if monstruo3.vidaActual==0:
+                dialogoWin(monstruo3,monedas3,expe3)
+                break
+            recuperarVida()
+        elif accion=="b" and aleatorio==3:
+            comanComand2(monstruo4)
+            if usuario.vidaActual > 0:
+                usuario.vidaActual+=2
+            elif usuario.vidaActual==0:
+                dialogoDefeat()
+                break
+            if monstruo4.vidaActual==0:
+                dialogoWin(monstruo4.nombre,monedas4,expe4)
+                break
+            recuperarVida()
+        elif accion=="v":
+            os.system("cls")
+            break
+        else:
+            print("opcion incorrect vuelva a ingresar una opcion valida!")
+            os.system("cls")
+            continue
+
+def releccion():
+    print("posibles enemigos:")
+    print(f"{enemigos[0]}")
+    print(f"{enemigos[1]}")
+    os.system("echo.")
+    os.system("echo.")
+
+def combate():
+    while True:
+        title("MAPAS","nombre","mapas")
+        os.system("echo.")
+        print("Bosque Sombrio")
+        print("Desieto Arido")
+        os.system("echo.")
+        os.system("echo.")
+        seleccion=input("seleccione el mapa:")
+        if seleccion=="bosque sombrio":
+            os.system("cls")
+            mapas(Goblin,10,40,Goblin5,35,100,Esqueleto,20,70,Esqueleto5,50,150,1)
+            releccion()
+            inp=input("si desea buscar otro oponnete ingese 1, sino presione cualquier tecla:")
+            if inp=="1":
+                os.system("cls")
+                restaurar()
+                continue
+            else:
+                os.system("cls")
+                break
+        elif seleccion=="desierto arido":
+            os.system("cls")
+            mapas(Escorpion,20,70,Escorpion5,50,200,Minotauro,40,120,Minotauro5,150,350,2)
+            releccion()
+            inp=input("si desea buscar otro oponnete ingese 1, sino presione cualquier tecla:")
+            if inp=="1":
+                os.system("cls")
+                restaurar()
+                continue
+            else:
+                os.system("cls")
+                break
+        elif seleccion=="salir":
+            os.system("cls")
+            break
+        else:
+            charlantina()
+            continue
+        
 
 def critico1(monstuo:mobs):
     valor=random.randint(0,3)
@@ -47,25 +287,6 @@ def mostraRegeneracion() -> int:
     usuario.vidaActual=pibote
     return valor
 
-def comanSeleccion(monstruo: 'mobs'):
-    print("Enemigo:"+monstruo.nombre)
-    os.system("echo.")
-    print("NIVEL:"+str(monstruo.nivel))
-    os.system("echo.")
-    print("Arma actual: "+monstruo.ARMA.nombreArma)
-    os.system("echo.")
-    print("Vida del enemigo:"+str(monstruo.vidaActual))
-    os.system("echo.")
-
-def seleccion():
-    if aleatorio==0:
-        comanSeleccion(Goblin)
-    elif aleatorio==1:
-        comanSeleccion(Esqueleto)
-    elif aleatorio==2:
-        comanSeleccion(Goblin5)
-    elif aleatorio==3:
-        comanSeleccion(Esqueleto5)
 
 def estadoJugador():
     print(f"                                                                            Nombre de Usuario: {nombreUsuario}")
@@ -80,168 +301,26 @@ def estadoJugador():
     print(f"                                                                            pies:{usuario.pies.nombreArmadura}")
     print(f"                                                                            escudo:{usuario.escudo.nombreArmadura}")
 
-def comanCobat(monstruo: 'mobs'):
-    os.system("cls")
-    pibote=usuario.vidaActual
-    if usuario.critico==1:
-        critico1(monstruo)
-    elif usuario.critico==2:
-        critico2(monstruo)
-    elif usuario.critico==3:
-        critico3(monstruo)
-    usuario.atacar(monstruo)
-    print(usuario.ARMA.inflingedano)
-    os.system("echo.")
-    monstruo.atacar(usuario)
-    print(monstruo.ARMA.inflingedano)
-    os.system("echo.")
-    pibote2=-(usuario.vidaActual-pibote)
-    print(f"daño recibido: {pibote2}")
-    os.system("echo.")
-    regeneracion=mostraRegeneracion()
-    print(f"regeneracion: {regeneracion}")
-
-def comanComand2(monstruo: 'mobs'):
-    os.system("cls")
-    pibote=usuario.vidaActual
-    monstruo.atacar(usuario)
-    print(monstruo.ARMA.inflingedano)
-    os.system("echo.")
-    pibote2=-(usuario.vidaActual-pibote)
-    print(f"daño recibido: {pibote2}")
-    os.system("echo.")
-    if usuario.vidaActual>0:
-        regeneracion=mostraRegeneracion()
-        print(f"regeneracion: {regeneracion}")
-
-def dialogoDefeat():
-    print("¡¡PERDISTE!!")
-    input("PRESIONE CUALQUIER TECLA...")
-    os.system("cls")
-
-def dialogoWin(palabrin,monedas,exp):
-    print(f"MATASTE {palabrin}!")
-    print(f"+{monedas} monedas")
-    usuario.monedas+=monedas
-    print(f"+{exp} EXP")
-    usuario.experiencia+=exp
-    input("PRESIONE CUALQUIER TECLA...")
-    os.system("cls")
-
-def combate():
-    while True:
-            estadoJugador()
-            seleccion()
-
-            print("para atacar preisone\"A\"")
-            os.system("echo.")
-            print("para defenderse preisone\"B\"")
-            os.system("echo.")
-            print("para volver presione \"V\"")
-            accion=input("ingrese una opcion:")
-
-            if accion=="a" and aleatorio==0:
-                comanCobat(Goblin)
-                if usuario.vidaActual==0:
-                    dialogoDefeat()
-                    break
-                elif Goblin.vidaActual==0:
-                    dialogoWin("GOBLIN",10,40)
-                    break
-                recuperarVida()
-            elif accion=="a" and aleatorio==1:
-                comanCobat(Esqueleto)
-                if usuario.vidaActual==0:
-                    dialogoDefeat()
-                    break
-                elif Esqueleto.vidaActual==0:
-                    dialogoWin("ESQUELETO",20,75)
-                    break
-                recuperarVida()
-            elif accion=="a" and aleatorio==2:
-                comanCobat(Goblin5)
-                if usuario.vidaActual==0:
-                    dialogoDefeat()
-                    break
-                elif Goblin.vidaActual==0:
-                    dialogoWin("GOBLIN",35,100)
-                    break
-                recuperarVida()
-            elif accion=="a" and aleatorio==3:
-                comanCobat(Esqueleto5)
-                if usuario.vidaActual==0:
-                    dialogoDefeat()
-                    break
-                elif Goblin.vidaActual==0:
-                    dialogoWin("ESQUELETO",50,150)
-                    break
-                recuperarVida()
-            elif accion=="b" and aleatorio==0:
-                comanComand2(Goblin)
-                if usuario.vidaActual > 0:
-                    usuario.vidaActual+=2
-                elif usuario.vidaActual==0:
-                    dialogoDefeat()
-                    break
-                if Goblin.vidaActual==0:
-                    dialogoWin("GOBLIN",10,40)
-                    break
-                recuperarVida()
-            elif accion=="b" and aleatorio==1:
-                comanComand2(Esqueleto)
-                if usuario.vidaActual > 0:
-                    usuario.vidaActual+=2
-                elif usuario.vidaActual==0:
-                    dialogoDefeat()
-                    break
-                if Esqueleto.vidaActual==0:
-                    dialogoWin("ESQUELETO",20,75)
-                    break
-                recuperarVida()
-            elif accion=="b" and aleatorio==2:
-                comanComand2(Goblin5)
-                if usuario.vidaActual > 0:
-                    usuario.vidaActual+=2
-                elif usuario.vidaActual==0:
-                    dialogoDefeat()
-                    break
-                if Goblin.vidaActual==0:
-                    dialogoWin("GOBLIN",35,100)
-                    break
-                recuperarVida()
-            elif accion=="b" and aleatorio==3:
-                comanComand2(Esqueleto5)
-                if usuario.vidaActual > 0:
-                    usuario.vidaActual+=2
-                elif usuario.vidaActual==0:
-                    dialogoDefeat()
-                    break
-                if Goblin.vidaActual==0:
-                    dialogoWin("ESQUELETO",50,150)
-                    break
-                recuperarVida()
-            elif accion=="v":
-                os.system("cls")
-                break
-            else:
-                print("opcion incorrect vuelva a ingresar una opcion valida!")
-                os.system("cls")
-                continue
 
 def moneditasIn() -> None:
     os.system("cls")
     print("monedas insuficientes!!")
+    print("seleccione un objeto que pueda comprar")
+    os.system("echo.")
 
 def storeComan(arma: 'arma',monedas:int) -> None:
     mochila.append(arma.nombreArma)
     usuario.monedas-=monedas
     os.system("cls")
+    print(f"{arma.nombreArma} comprada con exito!")
+    print(f"monedas -{monedas}")
+    os.system("echo.")
 
-def title(opcion:str):
-    print(f"*************************{opcion}*************************")
+def title(opcion:str, piplo:str, piplo2:str) -> None:
+    print(f"***************************{opcion}***************************")
     estadoJugador()
 
-    print("Seleccione el ID del objeto que quiere comprar:")
+    print(f"Seleccione el {piplo} del {piplo2} que quiere comprar:")
     print("para volver presione \"SALIR\"")
     os.system("echo.")
 
@@ -259,7 +338,7 @@ def tienda():
         if eleccion=="armaduras":
             os.system("cls")
             while True:
-                title("ARMADURAS")
+                title("ARMADURAS","ID","objetos")
 
                 print("ID: c_cu (casco de cuero) ---> precio 30 monedas.")
                 print("ID: ch_cu (chaleco de cuero) ---> precio 50 monedas.")
@@ -318,7 +397,7 @@ def tienda():
         elif eleccion=="armas":
             os.system("cls")
             while True:
-                title("ARMAS")
+                title("ARMAS","ID","objetos")
 
                 print("ID: esp (espada) ---> precio 30 monedas.")
                 print("ID: arc (arco) ---> precio 50 monedas.")
@@ -417,6 +496,8 @@ def comanBag(arma: 'arma',coman:int) -> None:
 def charlantina() -> None:
     os.system("cls")
     print("OPCION INVALIDA!!")
+    print("por favor, ingrese una opcion valida.")
+    os.system("echo.")
 
 
 def Mochila():
@@ -673,14 +754,19 @@ def nivel():
     elif usuario.nivel==4:
         comanLevel(5,30,4,3)
 
+def restaurar():
+    Goblin.vidaActual=Goblin.vidaMaxima
+    Goblin5.vidaActual=Goblin5.vidaMaxima
+    Esqueleto.vidaActual=Esqueleto.vidaMaxima
+    Esqueleto5.vidaActual=Esqueleto5.vidaMaxima
+    usuario.vidaActual=usuario.vidaMaxima
+
 def main() -> None:
     while True:
 
         while True:
             nivel()
-            Goblin.vidaActual=Goblin.vidaMaxima
-            Esqueleto.vidaActual=Esqueleto.vidaMaxima
-            usuario.vidaActual=usuario.vidaMaxima
+            restaurar()
             estadoJugador()
             os.system("echo.")
             print("para combatir presione \"w\"")

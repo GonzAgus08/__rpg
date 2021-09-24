@@ -228,6 +228,23 @@ def combate():
                 os.system("cls")
                 continue
 
+def moneditasIn() -> None:
+    os.system("cls")
+    print("monedas insuficientes!!")
+
+def storeComan(arma: 'arma',monedas:int) -> None:
+    mochila.append(arma.nombreArma)
+    usuario.monedas-=monedas
+    os.system("cls")
+
+def title(opcion:str):
+    print(f"*************************{opcion}*************************")
+    estadoJugador()
+
+    print("Seleccione el ID del objeto que quiere comprar:")
+    print("para volver presione \"SALIR\"")
+    os.system("echo.")
+
 def tienda():
     while True:
         print("Para ir a la seccion de armas escriba\"armas\"")
@@ -242,12 +259,7 @@ def tienda():
         if eleccion=="armaduras":
             os.system("cls")
             while True:
-                print("*************************ARMADURAS*************************")
-                estadoJugador()
-
-                print("Seleccione el ID del objeto que quiere comprar:")
-                print("para volver presione \"SALIR\"")
-                os.system("echo.")
+                title("ARMADURAS")
 
                 print("ID: c_cu (casco de cuero) ---> precio 30 monedas.")
                 print("ID: ch_cu (chaleco de cuero) ---> precio 50 monedas.")
@@ -263,8 +275,7 @@ def tienda():
 
                 if accion=="c_cu":
                     if usuario.monedas < 30:
-                        os.system("cls")
-                        print("monedas insuficientes!!")
+                        moneditasIn()
                         continue
                     mochila1.append(cascoCuero.nombreArmadura)
                     usuario.monedas-=30
@@ -274,50 +285,40 @@ def tienda():
                     break
                 elif accion=="ch_cu":
                     if usuario.monedas < 50:
-                        os.system("cls")
-                        print("monedas insuficientes!!")
+                        moneditasIn()
                         continue
                     mochila1.append(chalecoCuero.nombreArmadura)
                     usuario.monedas-=50
                     os.system("cls")
                 elif accion=="p_cu":
                     if usuario.monedas < 40:
-                        os.system("cls")
-                        print("monedas insuficientes!!")
+                        moneditasIn()
                         continue
                     mochila1.append(piernasCuero.nombreArmadura)
                     usuario.monedas-=40
                     os.system("cls")
                 elif accion=="b_cu":
                     if usuario.monedas <30:
-                        os.system("cls")
-                        print("monedas insuficientes!!")
+                        moneditasIn()
                         continue
                     mochila1.append(botasCuero.nombreArmadura)
                     usuario.monedas-=30
                     os.system("cls")
                 elif accion=="s_ir":
                     if usuario.monedas < 50:
-                        os.system("cls")
-                        print("monedas insuficientes!!")
+                        moneditasIn()
                         continue
                     mochila1.append(escudoHierro.nombreArmadura)
                     usuario.monedas-=50
                     os.system("cls")
                 else:
-                    os.system("cls")
-                    print("¡¡OPCION INVALIDA!!")
+                    charlantina()
                     os.system("echo.")
 
         elif eleccion=="armas":
             os.system("cls")
             while True:
-                print("*************************ARMAS*************************")
-                estadoJugador()
-
-                print("Seleccione el ID del objeto que quiere comprar:")
-                print("para volver presione \"SALIR\"")
-                os.system("echo.")
+                title("ARMAS")
 
                 print("ID: esp (espada) ---> precio 30 monedas.")
                 print("ID: arc (arco) ---> precio 50 monedas.")
@@ -334,58 +335,39 @@ def tienda():
 
                 if accion=="esp":
                     if usuario.monedas < 30:
-                        os.system("cls")
-                        print("monedas insuficientes!!")
+                        moneditasIn()
                         continue
-                    mochila.append(espada.nombreArma)
-                    usuario.monedas-=30
-                    os.system("cls")
+                    storeComan(espada,30)
                 elif accion=="salir":
                     os.system("cls")
                     break
                 elif accion=="arc":
                     if usuario.monedas < 50:
-                        os.system("cls")
-                        print("monedas insuficientes!!")
+                        moneditasIn()
                         continue
-                    mochila.append(arco.nombreArma)
-                    usuario.monedas-=50
-                    os.system("cls")
+                    storeComan(arco,50)
                 elif accion=="ach":
                     if usuario.monedas < 75:
-                        os.system("cls")
-                        print("monedas insuficientes!!")
+                        moneditasIn()
                         continue
-                    mochila.append(hacha.nombreArma)
-                    usuario.monedas-=75
-                    os.system("cls")
+                    storeComan(hacha,75)
                 elif accion=="ktn":
                     if usuario.monedas < 150:
-                        os.system("cls")
-                        print("monedas insuficientes!!")
+                        moneditasIn()
                         continue
-                    mochila.append(katana.nombreArma)
-                    usuario.monedas-=150
-                    os.system("cls")
+                    storeComan(katana,150)
                 elif accion=="mrt":
                     if usuario.monedas < 250:
-                        os.system("cls")
-                        print("monedas insuficientes!!")
+                        moneditasIn()
                         continue
-                    mochila.append(martillo.nombreArma)
-                    usuario.monedas-=250
-                    os.system("cls")
+                    storeComan(martillo,250)
                 elif accion=="smw":
                     if usuario.monedas < 600:
-                        os.system("cls")
-                        print("monedas insuficientes!!")
+                        moneditasIn()
                         continue
-                    mochila.append(samrtSword.nombreArma)
-                    usuario.monedas-=600
-                    os.system("cls")
+                    storeComan(samrtSword,600)
                 else:
-                    os.system("cls")
-                    print("¡¡OPCION INVALIDA!!")
+                    charlantina()
                     os.system("echo.")
         elif eleccion=="pot":
             while True:
@@ -419,9 +401,22 @@ def tienda():
             os.system("cls")
             break
         else:
-            os.system("cls")
-            print("OPCION INVALIDA!")
+            charlantina()
             continue
+
+def comanBag(arma: 'arma',coman:int) -> None:
+    if coman==1:
+        usuario.ARMA=arma
+        mochila.append(arma.nombreArma)
+        os.system("cls")
+    elif coman==2:
+        usuario.ARMA=arma
+        mochila.remove(arma.nombreArma)
+        os.system("cls")
+
+def charlantina() -> None:
+    os.system("cls")
+    print("OPCION INVALIDA!!")
 
 
 def Mochila():
@@ -436,188 +431,223 @@ def Mochila():
         opcion=input("Elija una opcion:")
 
         if opcion=="d":
-            print("nombre del objeto a desequipar:")
-            print("arma equipada: ["+usuario.ARMA.nombreArma+"]")
-            os.system("echo.")
-            opcion1=input("nombre:")
-            if opcion1== "espada":
-                if usuario.ARMA==vacio or usuario.ARMA != espada:
-                    os.system("cls")
-                    print("opcion invalida!!")
-                    continue
-                usuario.ARMA=vacio
-                mochila.append(espada.nombreArma)
-            elif opcion1=="arco":
-                if usuario.ARMA==vacio or usuario.ARMA != arco:
-                    os.system("cls")
-                    print("opcion invalida!!")
-                    continue
-                usuario.ARMA=vacio
-                mochila.append(arco.nombreArma)
-            elif opcion1=="hacha":
-                if usuario.ARMA==vacio or usuario.ARMA != hacha:
-                    os.system("cls")
-                    print("opcion invalida!!")
-                    continue
-                usuario.ARMA=vacio
-                mochila.append(hacha.nombreArma)
-            elif opcion1=="katana":
-                if usuario.ARMA==vacio or usuario.ARMA != katana:
-                    os.system("cls")
-                    print("opcion invalida!!")
-                    continue
-                usuario.ARMA=vacio
-                mochila.append(katana.nombreArma)
-            elif opcion1=="martillo":
-                if usuario.ARMA==vacio or usuario.ARMA != martillo:
-                    os.system("cls")
-                    print("opcion invalida!!")
-                    continue
-                usuario.ARMA=vacio
-                mochila.append(martillo.nombreArma)
-            elif opcion1=="esapda-inteligente":
-                if usuario.ARMA==vacio or usuario.ARMA != samrtSword:
-                    os.system("cls")
-                    print("opcion invalida!!")
-                    continue
-                usuario.ARMA=vacio
-                mochila.append(samrtSword.nombreArma)
-            elif usuario.ARMA==vacio:
-                os.system("cls")
-                print("ya esta vacio el lote!!")
-                continue
-        elif opcion=="e":
             os.system("cls")
-            print("para equipar armadura escriba\"ARMADURA\"")
-            print("para equipar arma escriba\"ARMA\"")
-
-            definir=input("seleccion su opcion:")
-            
-            if definir=="arma":
-                if usuario.ARMA != vacio:
-                    mochila.append(usuario.ARMA.nombreArma)
-                    usuario.ARMA=vacio
-                print(f"ARMAS:{mochila}")
+            while True:
+                print("para salir esciba \"SALIR\"")
                 os.system("echo.")
-                opcion2=input("nombre del objeto a equipar:")
-                if opcion2== "espada":
-                    if espada.nombreArma not in mochila:
-                        os.system("cls")
-                        print("OPCION INVALIDA")
+                print("nombre del objeto a desequipar:")
+                print("arma equipada: ["+usuario.ARMA.nombreArma+"]")
+                print("casco equipado: ["+usuario.casco.nombreArmadura+"]")
+                print("chaleco equipada: ["+usuario.pecho.nombreArmadura+"]")
+                print("piernas equipada: ["+usuario.piernas.nombreArmadura+"]")
+                print("pies equipado: ["+usuario.pies.nombreArmadura+"]")
+                print("escudo equipado: ["+usuario.escudo.nombreArmadura+"]")
+                os.system("echo.")
+                opcion1=input("nombre:")
+                if opcion1== "espada":
+                    if usuario.ARMA==vacio or usuario.ARMA != espada:
+                        charlantina()
                         continue
-                    usuario.ARMA=espada
-                    mochila.remove(espada.nombreArma)
-                    os.system("cls")
-                elif opcion2=="arco":
-                    if arco.nombreArma not in mochila:
-                        os.system("cls")
-                        print("OPCION INVALIDA")
+                    comanBag(espada,1)
+                elif opcion1=="arco":
+                    if usuario.ARMA==vacio or usuario.ARMA != arco:
+                        charlantina()
                         continue
-                    usuario.ARMA=arco
-                    mochila.remove(arco.nombreArma)
-                    os.system("cls")
-                elif opcion2=="hacha":
-                    if hacha.nombreArma not in mochila:
-                        os.system("cls")
-                        print("OPCION INVALIDA")
+                    comanBag(arco,1)
+                elif opcion1=="hacha":
+                    if usuario.ARMA==vacio or usuario.ARMA != hacha:
+                        charlantina()
                         continue
-                    usuario.ARMA=hacha
-                    mochila.remove(hacha.nombreArma)
-                    os.system("cls")
-                elif opcion2=="katana":
-                    if katana.nombreArma not in mochila:
-                        os.system("cls")
-                        print("OPCION INVALIDA")
+                    comanBag(hacha,1)
+                elif opcion1=="katana":
+                    if usuario.ARMA==vacio or usuario.ARMA != katana:
+                        charlantina()
                         continue
-                    usuario.ARMA=katana
-                    mochila.remove(katana.nombreArma)
-                    os.system("cls")
-                elif opcion2=="martillo":
-                    if martillo.nombreArma not in mochila:
-                        os.system("cls")
-                        print("OPCION INVALIDA")
+                    comanBag(katana,1)
+                elif opcion1=="martillo":
+                    if usuario.ARMA==vacio or usuario.ARMA != martillo:
+                        charlantina()
                         continue
-                    usuario.ARMA=martillo
-                    mochila.remove(martillo.nombreArma)
-                    os.system("cls")
-                elif opcion2=="esapda_inteligente":
-                    if samrtSword.nombreArma not in mochila:
-                        os.system("cls")
-                        print("OPCION INVALIDA")
+                    comanBag(martillo,1)
+                elif opcion1=="esapda-inteligente":
+                    if usuario.ARMA==vacio or usuario.ARMA != samrtSword:
+                        charlantina()
                         continue
-                    usuario.ARMA=samrtSword
-                    mochila.remove(samrtSword.nombreArma)
+                    comanBag(samrtSword,1)
+                elif usuario.ARMA==vacio:
                     os.system("cls")
-                else:
-                    os.system("cls")
-                    print("OPCION INVALIDA!")
+                    print("ya esta vacio el lote!!")
                     continue
-            elif definir=="armadura":
-                print(f"ARMADURAS:{mochila1}")
-                os.system("echo.")
-                opcion2=input("nombre del objeto a equipar:")
-                if opcion2== "casco de cuero":
-                    if usuario.casco != vacia:
-                        mochila1.append(usuario.casco.nombreArmadura)
-                        usuario.ARMA=vacia
-                    if cascoCuero.nombreArmadura not in mochila1:
-                        os.system("cls")
-                        print("OPCION INVALIDA")
+                elif opcion1=="casco de cuero":
+                    if usuario.vacia==vacio or usuario.ARMA != cascoCuero:
+                        charlantina()
                         continue
                     usuario.casco=cascoCuero
-                    mochila1.remove(cascoCuero.nombreArmadura)
+                    mochila1.append(cascoCuero.nombreArmadura)
                     os.system("cls")
-                elif opcion2=="chaleco de cuero":
-                    if usuario.pecho != vacia:
-                        mochila1.append(usuario.pecho.nombreArmadura)
-                        usuario.pecho=vacia
-                    if chalecoCuero.nombreArmadura not in mochila1:
-                        os.system("cls")
-                        print("OPCION INVALIDA")
+                elif opcion1=="chaleco de cuero":
+                    if usuario.ARMA==vacia or usuario.ARMA != chalecoCuero:
+                        charlantina()
                         continue
                     usuario.pecho=chalecoCuero
-                    mochila1.remove(chalecoCuero.nombreArmadura)
+                    mochila1.append(chalecoCuero.nombreArmadura)
                     os.system("cls")
-                elif opcion2=="piernas de cuero":
-                    if usuario.piernas != vacia:
-                        mochila1.append(usuario.piernas.nombreArmadura)
-                        usuario.piernas=vacia
-                    if piernasCuero.nombreArmadura not in mochila1:
-                        os.system("cls")
-                        print("OPCION INVALIDA")
+                elif opcion1=="piernas de cuero":
+                    if usuario.ARMA==vacia or usuario.ARMA != piernasCuero:
+                        charlantina()
                         continue
                     usuario.piernas=piernasCuero
-                    mochila1.remove(piernasCuero.nombreArmadura)
+                    mochila1.append(piernasCuero.nombreArmadura)
                     os.system("cls")
-                elif opcion2=="botas de cuero":
-                    if usuario.pies != vacia:
-                        mochila1.append(usuario.pies.nombreArmadura)
-                    usuario.ARMA=vacia
-                    if botasCuero.nombreArmadura not in mochila1:
-                        os.system("cls")
-                        print("OPCION INVALIDA")
+                elif opcion1=="botas de cuero":
+                    if usuario.ARMA==vacia or usuario.ARMA != botasCuero:
+                        charlantina()
                         continue
                     usuario.pies=botasCuero
-                    mochila1.remove(botasCuero.nombreArmadura)
+                    mochila1.append(botasCuero.nombreArmadura)
                     os.system("cls")
-                elif opcion2=="escudo de hierro":
-                    if escudoHierro.nombreArmadura not in mochila1:
-                        os.system("cls")
-                        print("OPCION INVALIDA")
+                elif opcion1=="escudo de hierro":
+                    if usuario.ARMA==vacia or usuario.ARMA != escudoHierro:
+                        charlantina()
                         continue
                     usuario.escudo=escudoHierro
-                    mochila1.remove(escudoHierro.nombreArmadura)
+                    mochila.append(escudoHierro.nombreArmadura)
                     os.system("cls")
-            else:
-                os.system("cls")
-                print("OPCION INVALIDA!")
-                continue
+                elif opcion1=="salir":
+                    os.system("cls")
+                    break
+                else:
+                    charlantina()
+                    continue
+        elif opcion=="e":
+            os.system("cls")
+            while True:
+                print("para salir esciba \"SALIR\"")
+                print("para equipar armadura escriba\"ARMADURA\"")
+                print("para equipar arma escriba\"ARMA\"")
+
+                print(f"ARMAS: {mochila}")
+                print(f"ARMADURAS: {mochila1}")
+
+                definir=input("seleccion su opcion:")
+                
+                if definir=="arma":
+                    os.system("cls")
+                    while True:
+                        print("para salir esciba \"SALIR\"")
+                        if usuario.ARMA != vacio:
+                            mochila.append(usuario.ARMA.nombreArma)
+                            usuario.ARMA=vacio
+                        print(f"ARMAS:{mochila}")
+                        os.system("echo.")
+                        opcion2=input("nombre del objeto a equipar:")
+                        if opcion2== "espada":
+                            if espada.nombreArma not in mochila:
+                                charlantina()
+                                continue
+                            comanBag(espada,2)
+                        elif opcion2=="arco":
+                            if arco.nombreArma not in mochila:
+                                charlantina()
+                                continue
+                            comanBag(arco,2)
+                        elif opcion2=="hacha":
+                            if hacha.nombreArma not in mochila:
+                                charlantina()
+                                continue
+                            comanBag(hacha,2)
+                        elif opcion2=="katana":
+                            if katana.nombreArma not in mochila:
+                                charlantina()
+                                continue
+                            comanBag(katana,2)
+                        elif opcion2=="martillo":
+                            if martillo.nombreArma not in mochila:
+                                charlantina()
+                                continue
+                            comanBag(martillo,2)
+                        elif opcion2=="esapda_inteligente":
+                            if samrtSword.nombreArma not in mochila:
+                                charlantina()
+                                continue
+                            comanBag(samrtSword,2)
+                        elif opcion2=="salir":
+                            os.system("cls")
+                            break
+                        else:
+                            charlantina()
+                            continue
+                elif definir=="armadura":
+                    os.system("cls")
+                    while True:
+                        print("para salir esciba \"SALIR\"")
+                        print(f"ARMADURAS:{mochila1}")
+                        os.system("echo.")
+                        opcion2=input("nombre del objeto a equipar:")
+                        if opcion2== "casco de cuero":
+                            if usuario.casco != vacia:
+                                mochila1.append(usuario.casco.nombreArmadura)
+                                usuario.ARMA=vacia
+                            if cascoCuero.nombreArmadura not in mochila1:
+                                charlantina()
+                                continue
+                            usuario.casco=cascoCuero
+                            mochila1.remove(cascoCuero.nombreArmadura)
+                            os.system("cls")
+                        elif opcion2=="chaleco de cuero":
+                            if usuario.pecho != vacia:
+                                mochila1.append(usuario.pecho.nombreArmadura)
+                                usuario.pecho=vacia
+                            if chalecoCuero.nombreArmadura not in mochila1:
+                                charlantina()
+                                continue
+                            usuario.pecho=chalecoCuero
+                            mochila1.remove(chalecoCuero.nombreArmadura)
+                            os.system("cls")
+                        elif opcion2=="piernas de cuero":
+                            if usuario.piernas != vacia:
+                                mochila1.append(usuario.piernas.nombreArmadura)
+                                usuario.piernas=vacia
+                            if piernasCuero.nombreArmadura not in mochila1:
+                                charlantina()
+                                continue
+                            usuario.piernas=piernasCuero
+                            mochila1.remove(piernasCuero.nombreArmadura)
+                            os.system("cls")
+                        elif opcion2=="botas de cuero":
+                            if usuario.pies != vacia:
+                                mochila1.append(usuario.pies.nombreArmadura)
+                            usuario.ARMA=vacia
+                            if botasCuero.nombreArmadura not in mochila1:
+                                charlantina()
+                                continue
+                            usuario.pies=botasCuero
+                            mochila1.remove(botasCuero.nombreArmadura)
+                            os.system("cls")
+                        elif opcion2=="escudo de hierro":
+                            if escudoHierro.nombreArmadura not in mochila1:
+                                charlantina()
+                                continue
+                            usuario.escudo=escudoHierro
+                            mochila1.remove(escudoHierro.nombreArmadura)
+                            os.system("cls")
+                        elif opcion2=="salir":
+                            os.system("cls")
+                            break
+                        else:
+                            charlantina()
+                            continue
+                elif definir=="salir":
+                    os.system("cls")
+                    break
+                else:
+                    charlantina()
+                    continue
         elif opcion=="v":
             os.system("cls")
             break
         else:
-            os.system("cls")
-            print("OPCION INVALIDA!")
+            charlantina()
             continue
 
 def comanLevel(nivelote,vidamaxima,ataquebase,aumentovida):
@@ -627,7 +657,7 @@ def comanLevel(nivelote,vidamaxima,ataquebase,aumentovida):
         usuario.vidaMaxima=vidamaxima
         usuario.vidaActual=usuario.vidaMaxima
         usuario.ataqueBase=ataquebase
-        print(" ¡¡FELICIDADES HAS SUBIDO AL NIVEL \"2\"!!")
+        print(f" ¡¡FELICIDADES HAS SUBIDO AL NIVEL \"{nivelote}\"!!")
         os.system("echo.")
         print("*****BONUS DE NIVEL*****")
         print(f"-vida maxima: +{aumentovida}")
@@ -667,8 +697,7 @@ def main() -> None:
                 os.system("cls")
                 Mochila()
             else:
-                os.system("cls")
-                print("OPCION INVALIDA!!")
+                charlantina()
                 break
     
 if __name__=='__main__':

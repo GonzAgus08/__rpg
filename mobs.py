@@ -209,6 +209,9 @@ class Jugador(mobs):
 class goblin(mobs):
 
     nivel=1
+    nombre="GOBLIN"
+    monedass=10
+    expe=40
 
     def __init__(
         self,
@@ -227,6 +230,9 @@ class goblin(mobs):
 class goblin5(mobs):
     
     nivel=5
+    nombre="GOBLIN"
+    monedass=35
+    expe=100
 
     def __init__(
         self,
@@ -246,6 +252,9 @@ class goblin5(mobs):
 class squeleton(mobs):
 
     nivel=1
+    nombre="ESQUELETO"
+    monedass=20
+    expe=70
 
     def __init__(
         self,
@@ -264,6 +273,9 @@ class squeleton(mobs):
 class squeleton5(mobs):
     
     nivel=5
+    nombre="ESQUELETO"
+    monedass=50
+    expe=150
 
     def __init__(
         self,
@@ -278,3 +290,89 @@ class squeleton5(mobs):
         ) -> None:
 
        super().__init__(50, katana, "Esqueleton", casco, pecho, piernas, pies, escudo)
+
+
+class scorpion(mobs):
+    
+    nivel=1
+    nombre="Scorpion"
+    monedass=20
+    expe=70
+
+    def __init__(
+        self,
+        vidaMaxima: int, 
+        ARMA: 'arma', 
+        nombre: str, 
+        casco: 'armadura', 
+        pecho: 'armadura', 
+        piernas: 'armadura', 
+        pies: 'armadura', 
+        escudo: 'armadura'
+        ) -> None:
+
+       super().__init__(20, hacha, "Escorpion", casco, pecho, piernas, pies, escudo)
+
+
+class scorpion5(mobs):
+    
+    nivel=5
+    nombre="ESQUELETO"
+    monedass=50
+    expe=200
+
+    def __init__(
+        self,
+        vidaMaxima: int, 
+        ARMA: 'arma', 
+        nombre: str, 
+        casco: 'armadura', 
+        pecho: 'armadura', 
+        piernas: 'armadura', 
+        pies: 'armadura', 
+        escudo: 'armadura'
+        ) -> None:
+
+       super().__init__(30, martillo, "Scorpion", casco, pecho, piernas, pies, escudo)
+
+class minotauro(mobs):
+    
+    nivel=1
+    nombre="MINOTAURO"
+    monedass=40
+    expe=120
+
+    def __init__(
+        self,
+        vidaMaxima: int, 
+        ARMA: 'arma', 
+        nombre: str, 
+        casco: 'armadura', 
+        pecho: 'armadura', 
+        piernas: 'armadura', 
+        pies: 'armadura', 
+        escudo: 'armadura'
+        ) -> None:
+
+       super().__init__(25, katana, "Minotauro", casco, pecho, piernas, pies, escudo)
+
+class minotauro5(mobs):
+    
+    nivel=5
+    nombre="ESQUELETO"
+    monedass=150
+    expe=350
+
+    def __init__(
+        self,
+        vidaMaxima: int, 
+        ARMA: 'arma', 
+        nombre: str, 
+        casco: 'armadura', 
+        pecho: 'armadura', 
+        piernas: 'armadura', 
+        pies: 'armadura', 
+        escudo: 'armadura'
+        ) -> None:
+
+       super().__init__(75, samrtSword, "Minotauro", casco, pecho, piernas, pies, escudo)   

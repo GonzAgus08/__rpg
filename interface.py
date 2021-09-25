@@ -1,11 +1,77 @@
 from monstruo import *
 import os
-import random 
+import random
+
+mochilaClases=["mago","aquero","guerrero","berserker"]
+
+def charlantina() -> None:
+    os.system("cls")
+    print("OPCION INVALIDA!!")
+    print("por favor, ingrese una opcion valida.")
+    os.system("echo.")
+
+def stats(
+    casco: 'armadura',
+    pecho: 'armadura',
+    piernas: 'armadura',
+    pies: 'armadura',
+    escudo: 'armadura',
+    clase:str,
+    vidaMaxima:int,
+    ARMA: 'arma',
+    ataqueBase:int,
+    defensaBase:int
+    ) -> None:
+    mochilon=[
+        casco.nombreArmadura,
+        pecho.nombreArmadura,
+        piernas.nombreArmadura,
+        pies.nombreArmadura,
+        escudo.nombreArmadura
+    ]
+    os.system("echo.")
+    print(clase)
+    print(vidaMaxima)
+    print(ARMA)
+    print(f"ARMADURAS: {mochilon}")
+    print(f"ATAQUE BASE: {ataqueBase}")
+    print(f"DEFENSA BASE: {defensaBase}")
+    os.system("echo.")
+
 
 nombreUsuario=input("ingrese su nombre de Usuario:")
 os.system("cls")
+print("CLASES:")
+print(mochilaClases)
+stats(cascoCuero,vacia,vacia,vacia,vacia,"MAGO",18,cetroMagico.nombreArma,4,0)
+stats(vacia,vacia,vacia,vacia,vacia,"GUERRERO",22,espadaHierro.nombreArma,0,2)
+stats(vacia,vacia,vacia,botasCuero,vacia,"ARQUERO",20,arcoPlatinado.nombreArma,1,1)
+stats(vacia,vacia,vacia,vacia,vacia,"BERSERKER",22,hacha.nombreArma,2,0)
+clase=input("elija la clase de su personaje:")
+os.system("cls")
 
-usuario=Jugador(20,hacha,nombreUsuario,vacia,vacia,vacia,vacia,vacia)
+while True:
+    if clase=="mago" or clase=="MAGO": 
+        usuario=Jugador(18,cetroMagico,nombreUsuario,cascoCuero,vacia,vacia,vacia,vacia)
+        usuario.ataqueBase=4
+        break
+    elif clase=="guerrero" or clase=="GUERRERO":
+        usuario=Jugador(22,espadaHierro,nombreUsuario,vacia,vacia,vacia,vacia,vacia)
+        usuario.defensaBase=2
+        break
+    elif clase=="arquero" or clase=="ARQUERO":
+        usuario=Jugador(20,arcoPlatinado,nombreUsuario,vacia,vacia,vacia,botasCuero,vacia)
+        usuario.defensaBase=1
+        usuario.ataqueBase=1
+        break
+    elif clase=="berserker" or "BERSERKER":
+        usuario=Jugador(22,hacha,nombreUsuario,vacia,vacia,vacia,vacia,vacia)
+        usuario.ataqueBase=2
+        break
+    else:
+        charlantina()
+        continue
+    
 
 mochila=[]
 mochila1=[]
@@ -25,7 +91,7 @@ Escorpion5=scorpion5(None,None,None,cascoCuero,vacia,piernasCuero,botasCuero,vac
 Minotauro=minotauro(None,None,None,cascoCuero,chalecoCuero,vacia,vacia,escudoHierro)
 Minotauro5=minotauro5(None,None,None,cascoCuero,chalecoCuero,piernasCuero,vacia,escudoHierro)
 
-def comanSeleccion(monstruo: 'mobs'):
+def comanSeleccion(monstruo: 'mobs') -> None:
     print("Enemigo:"+monstruo.nombre)
     os.system("echo.")
     print("NIVEL:"+str(monstruo.nivel))
@@ -35,7 +101,7 @@ def comanSeleccion(monstruo: 'mobs'):
     print("Vida del enemigo:"+str(monstruo.vidaActual))
     os.system("echo.")
 
-def seleccion(aleatorio,divicion):
+def seleccion(aleatorio:int,divicion:int) -> None:
     if divicion==1:
         if aleatorio==0:
             comanSeleccion(Goblin)
@@ -55,7 +121,7 @@ def seleccion(aleatorio,divicion):
         elif aleatorio==3:
             comanSeleccion(Minotauro5)
 
-def comanCobat(monstruo: 'mobs'):
+def comanCobat(monstruo: 'mobs') -> None:
     os.system("cls")
     pibote=usuario.vidaActual
     piboteM=monstruo.vidaActual
@@ -80,7 +146,7 @@ def comanCobat(monstruo: 'mobs'):
     regeneracion=mostraRegeneracion()
     print(f"regeneracion: {regeneracion}")
 
-def comanComand2(monstruo: 'mobs'):
+def comanComand2(monstruo: 'mobs') -> None:
     os.system("cls")
     pibote=usuario.vidaActual
     monstruo.atacar(usuario)
@@ -93,12 +159,12 @@ def comanComand2(monstruo: 'mobs'):
         regeneracion=mostraRegeneracion()
         print(f"regeneracion: {regeneracion}")
 
-def dialogoDefeat():
+def dialogoDefeat() -> None:
     print("¡¡PERDISTE!!")
     input("PRESIONE CUALQUIER TECLA PARA CONTINUAR...")
     os.system("cls")
 
-def dialogoWin(palabrin,monedas,exp):
+def dialogoWin(palabrin:str,monedas:int,exp:int) -> None:
     print(f"MATASTE A {palabrin}!")
     print(f"+{monedas} monedas")
     usuario.monedas+=monedas
@@ -107,12 +173,24 @@ def dialogoWin(palabrin,monedas,exp):
     input("PRESIONE CUALQUIER TECLA PARA CONTINUAR...")
     os.system("cls")
 
-aleatorio1=random.randint(0,3)
 
-def mapas(monstruo1: 'mobs',monedas1,expe1, monstruo2: 'mobs',monedas2,expe2, monstruo3: 'mobs',monedas3,expe3, monstruo4: 'mobs',monedas4,expe4,divicion) -> None:
+def mapas(
+    monstruo1: 'mobs',
+    monedas1: int,
+    expe1:int, 
+    monstruo2: 'mobs',
+    monedas2: int,
+    expe2: int, 
+    monstruo3: 'mobs',
+    monedas3:int,
+    expe3:int, 
+    monstruo4: 'mobs',
+    monedas4:int,
+    expe4:int,
+    divicion:int) -> None:
     while True:
 
-        aleatorio=aleatorio1
+        aleatorio=random.randint(0,3)
         estadoJugador()
         seleccion(aleatorio,divicion)
 
@@ -123,7 +201,7 @@ def mapas(monstruo1: 'mobs',monedas1,expe1, monstruo2: 'mobs',monedas2,expe2, mo
         print("para volver presione \"V\"")
         accion=input("ingrese una opcion:")
 
-        if accion=="a" and aleatorio==0:
+        if (accion=="a" or accion=="A") and aleatorio==0:
             comanCobat(monstruo1)
             if usuario.vidaActual==0:
                 dialogoDefeat()
@@ -132,7 +210,7 @@ def mapas(monstruo1: 'mobs',monedas1,expe1, monstruo2: 'mobs',monedas2,expe2, mo
                 dialogoWin(monstruo1.nombre,monedas1,expe1)
                 break
             recuperarVida()
-        elif accion=="a" and aleatorio==1:
+        elif (accion=="a" or accion=="A") and aleatorio==1:
             comanCobat(monstruo2)
             if usuario.vidaActual==0:
                 dialogoDefeat()
@@ -141,7 +219,7 @@ def mapas(monstruo1: 'mobs',monedas1,expe1, monstruo2: 'mobs',monedas2,expe2, mo
                 dialogoWin(monstruo2.nombre,monedas2,expe2)
                 break
             recuperarVida()
-        elif accion=="a" and aleatorio==2:
+        elif (accion=="a" or accion=="A") and aleatorio==2:
             comanCobat(monstruo3)
             if usuario.vidaActual==0:
                 dialogoDefeat()
@@ -150,7 +228,7 @@ def mapas(monstruo1: 'mobs',monedas1,expe1, monstruo2: 'mobs',monedas2,expe2, mo
                 dialogoWin(monstruo3.nombre,monedas3,expe3)
                 break
             recuperarVida()
-        elif accion=="a" and aleatorio==3:
+        elif (accion=="a" or accion=="A") and aleatorio==3:
             comanCobat(monstruo4)
             if usuario.vidaActual==0:
                 dialogoDefeat()
@@ -159,7 +237,7 @@ def mapas(monstruo1: 'mobs',monedas1,expe1, monstruo2: 'mobs',monedas2,expe2, mo
                 dialogoWin(monstruo4,monedas4,expe4)
                 break
             recuperarVida()
-        elif accion=="b" and aleatorio==0:
+        elif (accion=="b" or accion=="B") and aleatorio==0:
             comanComand2(monstruo1)
             if usuario.vidaActual > 0:
                 usuario.vidaActual+=2
@@ -170,7 +248,7 @@ def mapas(monstruo1: 'mobs',monedas1,expe1, monstruo2: 'mobs',monedas2,expe2, mo
                 dialogoWin(monstruo1.nombre,monedas1,expe1)
                 break
             recuperarVida()
-        elif accion=="b" and aleatorio==1:
+        elif (accion=="b" or accion=="B") and aleatorio==1:
             comanComand2(monstruo2)
             if usuario.vidaActual > 0:
                 usuario.vidaActual+=2
@@ -181,7 +259,7 @@ def mapas(monstruo1: 'mobs',monedas1,expe1, monstruo2: 'mobs',monedas2,expe2, mo
                 dialogoWin(monstruo2.nombre,monedas2,expe2)
                 break
             recuperarVida()
-        elif accion=="b" and aleatorio==2:
+        elif (accion=="B" or accion=="b") and aleatorio==2:
             comanComand2(monstruo3)
             if usuario.vidaActual > 0:
                 usuario.vidaActual+=2
@@ -192,7 +270,7 @@ def mapas(monstruo1: 'mobs',monedas1,expe1, monstruo2: 'mobs',monedas2,expe2, mo
                 dialogoWin(monstruo3,monedas3,expe3)
                 break
             recuperarVida()
-        elif accion=="b" and aleatorio==3:
+        elif (accion=="b" or accion=="B") and aleatorio==3:
             comanComand2(monstruo4)
             if usuario.vidaActual > 0:
                 usuario.vidaActual+=2
@@ -207,18 +285,17 @@ def mapas(monstruo1: 'mobs',monedas1,expe1, monstruo2: 'mobs',monedas2,expe2, mo
             os.system("cls")
             break
         else:
-            print("opcion incorrect vuelva a ingresar una opcion valida!")
-            os.system("cls")
+            charlantina()
             continue
 
-def releccion():
+def releccion() -> None:
     print("posibles enemigos:")
-    print(f"{enemigos[0]}")
-    print(f"{enemigos[1]}")
+    print(f"mapa: \"Bosque Sombrio\"{enemigos[0]}")
+    print(f"mapa: \"Desierto Arido\"{enemigos[1]}")
     os.system("echo.")
     os.system("echo.")
 
-def combate():
+def combate() -> None:
     while True:
         title("MAPAS","nombre","mapas")
         os.system("echo.")
@@ -230,6 +307,7 @@ def combate():
         if seleccion=="bosque sombrio":
             os.system("cls")
             mapas(Goblin,10,40,Goblin5,35,100,Esqueleto,20,70,Esqueleto5,50,150,1)
+            nivel()
             releccion()
             inp=input("si desea buscar otro oponnete ingese 1, sino presione cualquier tecla:")
             if inp=="1":
@@ -242,6 +320,7 @@ def combate():
         elif seleccion=="desierto arido":
             os.system("cls")
             mapas(Escorpion,20,70,Escorpion5,50,200,Minotauro,40,120,Minotauro5,150,350,2)
+            nivel()
             releccion()
             inp=input("si desea buscar otro oponnete ingese 1, sino presione cualquier tecla:")
             if inp=="1":
@@ -259,17 +338,17 @@ def combate():
             continue
         
 
-def critico1(monstuo:mobs):
+def critico1(monstuo:mobs) -> None:
     valor=random.randint(0,3)
     monstuo.vidaActual-=valor
     print("CRITICO ---> +"+str(valor))
 
-def critico2(monstuo:mobs):
+def critico2(monstuo:mobs) -> None:
     valor=random.randint(1,4)
     monstuo.vidaActual-=valor
     print("CRITICO ---> +"+str(valor))
 
-def critico3(monstuo:mobs):
+def critico3(monstuo:mobs) -> None:
     valor=random.randint(2,5)
     monstuo.vidaActual-=valor
     print("CRITICO ---> +"+str(valor))
@@ -288,7 +367,7 @@ def mostraRegeneracion() -> int:
     return valor
 
 
-def estadoJugador():
+def estadoJugador() -> None:
     print(f"                                                                            Nombre de Usuario: {nombreUsuario}")
     print(f"                                                                            Vida actual: {usuario.vidaActual}")
     print("                                                                            EXP: "+str(usuario.experiencia)+"/"+str((10**(usuario.nivel+1)/2)))
@@ -451,8 +530,7 @@ def tienda():
         elif eleccion=="pot":
             while True:
                 os.system("cls")
-                print("seleccione el ID del objeto a comprar!")
-                print("para salir escriba\"salir\"")
+                title("POCIONEs","ID","objetos")
                 print("critico1 0-3 (crit_1) ---> 50 monedas")
                 print("critico1 1-4 (crit_2) ---> 100 monedas")
                 print("critico1 2-5 (crit_3) ---> 200 monedas")
@@ -492,12 +570,6 @@ def comanBag(arma: 'arma',coman:int) -> None:
         usuario.ARMA=arma
         mochila.remove(arma.nombreArma)
         os.system("cls")
-
-def charlantina() -> None:
-    os.system("cls")
-    print("OPCION INVALIDA!!")
-    print("por favor, ingrese una opcion valida.")
-    os.system("echo.")
 
 
 def Mochila():
@@ -685,7 +757,7 @@ def Mochila():
                             usuario.pecho=chalecoCuero
                             mochila1.remove(chalecoCuero.nombreArmadura)
                             os.system("cls")
-                        elif opcion2=="piernas de cuero":
+                        elif opcion2=="pantalon de cuero":
                             if usuario.piernas != vacia:
                                 mochila1.append(usuario.piernas.nombreArmadura)
                                 usuario.piernas=vacia
@@ -737,12 +809,13 @@ def comanLevel(nivelote,vidamaxima,ataquebase,aumentovida):
         usuario.nivel=nivelote
         usuario.vidaMaxima=vidamaxima
         usuario.vidaActual=usuario.vidaMaxima
-        usuario.ataqueBase=ataquebase
+        usuario.ataqueBase+=ataquebase
         print(f" ¡¡FELICIDADES HAS SUBIDO AL NIVEL \"{nivelote}\"!!")
         os.system("echo.")
         print("*****BONUS DE NIVEL*****")
         print(f"-vida maxima: +{aumentovida}")
         print(f"-ataque base: +{ataquebase}")
+        os.system("echo.")
 
 def nivel():
     if usuario.nivel==1:
@@ -765,7 +838,6 @@ def main() -> None:
     while True:
 
         while True:
-            nivel()
             restaurar()
             estadoJugador()
             os.system("echo.")

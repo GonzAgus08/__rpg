@@ -3,6 +3,7 @@ import abc
 
 
 class armadura(metaclass=abc.ABCMeta):
+    nombreArmadura=""
     
     @abc.abstractmethod
     def defensa(self) -> int:
@@ -87,7 +88,29 @@ class hacha(arma):
     def ataque(self) -> int:
         return 7
 
+class cetroMagico(arma):
+    
+    nombreArma="CETRO"
+    inflingedano="CETRO ---> 7"
 
+    def ataque(self) -> int:
+        return 7
+
+class espadaHierro(arma):
+    
+    nombreArma="ESPADA DE HIERRO"
+    inflingedano="ESPADA DE HIERRO ---> 7"
+
+    def ataque(self) -> int:
+        return 7 
+
+class arcoPlatinado(arma):
+    
+    nombreArma="ARCO PLATINADO"
+    inflingedano="ARCO PLATINADO ---> 7"
+
+    def ataque(self) -> int:
+        return 7               
 
 class katana(arma):
 
@@ -152,19 +175,20 @@ class mobs(metaclass=abc.ABCMeta):
         self.pies=pies
         self.escudo=escudo
         self.ataqueBase=0
+        self.defensaBase=0
 
     def armaAtaque(self) -> int:
         armajugador=self.ARMA()
         valor=(armajugador.ataque()+self.ataqueBase)
         return valor
     
-    def defensaArmadura(self):
+    def defensaArmadura(self) -> int:
         cascoJugador=self.casco()
         pechoJugador=self.pecho()
         piernasJugador=self.piernas()
         piesJugador=self.pies()
         escudoJugador=self.escudo()
-        valor=cascoJugador.defensa()+pechoJugador.defensa()+piernasJugador.defensa()+piesJugador.defensa()+escudoJugador.defensa()
+        valor=cascoJugador.defensa()+pechoJugador.defensa()+piernasJugador.defensa()+piesJugador.defensa()+escudoJugador.defensa()+self.defensaBase
         return valor
 
     def recibiDano(self, monstruo: 'mobs') -> None:

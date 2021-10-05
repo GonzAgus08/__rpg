@@ -176,6 +176,7 @@ class mobs(metaclass=abc.ABCMeta):
         self.escudo=escudo
         self.ataqueBase=0
         self.defensaBase=0
+        self.clase=""
 
     def armaAtaque(self) -> int:
         armajugador=self.ARMA()

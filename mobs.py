@@ -208,7 +208,9 @@ class mobs(metaclass=abc.ABCMeta):
 
 class Jugador(mobs):
 
-    monedas=200
+    monedas=50
+    diamantes=0
+    amatistas=0
     nivel=1
     experiencia=0
     critico=0
